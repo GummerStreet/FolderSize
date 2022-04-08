@@ -9,8 +9,8 @@ for n in range (0,pathlength):
     newpath=(newpath+path[n])
     if path[n]=="\\":
         newpath=newpath+"\\"
-regfile.write('"icon"'+"="+'"'+newpath+'\\'+'\\'+"folder32.ico"+'"'+"\n\n")
+regfile.write('"icon"'+"="+'"'+newpath+'\\'+'\\'+"folder.ico"+'"'+"\n\n")
 regfile.write("[HKEY_CLASSES_ROOT\Directory\shell\FolderSize\command]"+"\n")
 regfile.write('@="'+ newpath+'\\'+'\\'"foldersize.exe"+" "+'\\'+'"'+"%1"+"\\"+'""')
 regfile.close()
-os.system("reg import AddContextMenu.reg")
+os.system("start AddContextMenu.reg")
