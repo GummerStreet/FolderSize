@@ -63,6 +63,7 @@ def copy_text():
         textbox.event_generate(("<<Copy>>"))
 
 
+#List folders
 def dir_size(path):
     total_size = 0
 
@@ -79,17 +80,41 @@ def list_folder_size():
         base_dir=str(sys.argv[1])
         dirtext=(dir_size(base_dir))
         formatteddirsize=str(format(dirtext,","))
+        files = os.listdir(base_dir)
+        foldername=""
+        exitcycle=0
+        for n in range (1, len(base_dir), 1) :
+                if base_dir[-n]!="\\" and exitcycle==0:
+                        foldername=base_dir[-n]+foldername
+                else:
+                        exitcycle=1
+        textbox.insert(INSERT,"folder name: "+foldername+"\n")       
         textbox.insert(INSERT,"folder path: "+base_dir+"\n")
         textbox.insert(INSERT, formatteddirsize+"\n")
-            
-        files = os.listdir(base_dir)
 
         folders = []
-
+        level=1
+        indentspaces=""
         for e in files:
             filepath = os.path.join(base_dir, e)
             if os.path.isdir(filepath):
                 folders.append({"name":e, "path":filepath, "size":dir_size(filepath)})
+                subfiles = os.listdir(filepath)
+                for x in subfiles:
+                        subfilepath = os.path.join(filepath,x)
+                        if os.path.isdir(subfilepath):
+                                folders.append({"name":x, "path":subfilepath, "size":dir_size(subfilepath)})
+                                sub2files = os.listdir(subfilepath)
+                                for y in sub2files:
+                                        sub2filepath = os.path.join(subfilepath,y)
+                                        if os.path.isdir(sub2filepath):
+                                                folders.append({"name":y, "path":sub2filepath, "size":dir_size(sub2filepath)})
+                                                sub3files = os.listdir(sub2filepath)
+                                                for z in sub3files:
+                                                        sub3filepath = os.path.join(sub2filepath,z)
+                                                        if os.path.isdir(sub3filepath):
+                                                                folders.append({"name":z, "path":sub3filepath, "size":dir_size(sub2filepath)})
+        
 
         folders.sort(key=lambda filename: filename['size'], reverse=True)
         for f in folders:
@@ -98,7 +123,7 @@ def list_folder_size():
             textbox.insert(INSERT, ("folder path: " + f['path'])+"\n")
             foldersize=f['size']
             formattedsize=format(foldersize,",")
-            textbox.insert(INSERT, ("folder size: " + formattedsize)+"\n")
+            textbox.insert(INSERT, (indentspaces+"folder size: " + formattedsize)+"\n")
         textbox.configure(state=DISABLED)
 
 
