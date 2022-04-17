@@ -69,10 +69,9 @@ def Save_to_file():
         data=[('Text','*.txt')]
         reportfile=asksaveasfilename(filetypes=data, defaultextension=data)
         folderlist=textbox.get(1.0,END)
-        folderlistascii=str(folderlist.encode("utf8"))
         if str(reportfile)!='':
               reportfilesave=open(reportfile,'w')
-              reportfilesave.write(folderlistascii)
+              reportfilesave.write(folderlist)
               reportfilesave.close()
 
 
