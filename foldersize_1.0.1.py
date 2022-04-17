@@ -69,11 +69,11 @@ def Save_to_file():
         data=[('Text','*.txt')]
         reportfile=asksaveasfilename(filetypes=data, defaultextension=data)
         folderlist=textbox.get(1.0,END)
-        if os.path.isfile(reportfile)==True:
-              os.remove(reportfile)
+        folderlistascii=str(folderlist.encode("utf8"))
         if str(reportfile)!='':
               reportfilesave=open(reportfile,'w')
-              reportfilesave.write(folderlist)
+              reportfilesave.write(folderlistascii)
+              reportfilesave.close()
 
 
 #List folders
